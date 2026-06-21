@@ -32,7 +32,9 @@
     body {
       margin: 0;
       color: var(--ink);
-      background: var(--bg);
+      background:
+        radial-gradient(circle at 12% 10%, rgba(29, 101, 166, 0.08), transparent 30%),
+        linear-gradient(180deg, #f8fbfe 0%, var(--bg) 42%, #ffffff 100%);
       font-family: MiSans, "MiSans Latin", "PingFang SC", "Microsoft YaHei", Arial, sans-serif;
       letter-spacing: 0;
     }
@@ -60,6 +62,7 @@
       background: rgba(255, 255, 255, 0.96);
       border-bottom: 1px solid rgba(216, 226, 235, 0.92);
       backdrop-filter: blur(12px);
+      box-shadow: 0 10px 30px rgba(6, 38, 74, 0.06);
     }
 
     .nav-inner {
@@ -116,6 +119,7 @@
       color: #2f4054;
       font-size: 14px;
       font-weight: 500;
+      transition: color 0.18s ease, background 0.18s ease;
     }
 
     .nav-menu a:hover {
@@ -135,6 +139,13 @@
       font-size: 14px;
       font-weight: 600;
       white-space: nowrap;
+      box-shadow: 0 10px 24px rgba(6, 38, 74, 0.18);
+      transition: transform 0.18s ease, background 0.18s ease;
+    }
+
+    .nav-cta:hover {
+      background: var(--navy-2);
+      transform: translateY(-1px);
     }
 
     .hero {
@@ -164,6 +175,18 @@
       bottom: 0;
       height: 90px;
       background: linear-gradient(180deg, rgba(244, 247, 250, 0) 0%, var(--bg) 100%);
+    }
+
+    .hero-grid {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+      background-image:
+        linear-gradient(rgba(255, 255, 255, 0.08) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.08) 1px, transparent 1px);
+      background-size: 72px 72px;
+      mask-image: linear-gradient(90deg, rgba(0, 0, 0, 0.55), transparent 62%);
     }
 
     .hero-content {
@@ -228,6 +251,23 @@
       margin-top: 34px;
     }
 
+    .hero-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 24px;
+    }
+
+    .hero-badges span {
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      border-radius: 999px;
+      padding: 8px 12px;
+      color: #e5eff8;
+      background: rgba(255, 255, 255, 0.08);
+      font-size: 13px;
+      backdrop-filter: blur(10px);
+    }
+
     .primary-btn,
     .secondary-btn {
       display: inline-flex;
@@ -244,12 +284,27 @@
       color: var(--navy);
       background: #fff;
       border: 1px solid #fff;
+      box-shadow: 0 14px 34px rgba(0, 0, 0, 0.18);
     }
 
     .secondary-btn {
       color: #fff;
       border: 1px solid rgba(255, 255, 255, 0.48);
       background: rgba(255, 255, 255, 0.08);
+    }
+
+    .primary-btn,
+    .secondary-btn,
+    .primary,
+    .ghost {
+      transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+    }
+
+    .primary-btn:hover,
+    .secondary-btn:hover,
+    .primary:hover,
+    .ghost:hover {
+      transform: translateY(-1px);
     }
 
     .hero-stats {
@@ -270,6 +325,19 @@
       min-height: 118px;
       padding: 24px;
       background: #fff;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .stat::after {
+      content: "";
+      position: absolute;
+      right: -28px;
+      top: -32px;
+      width: 86px;
+      height: 86px;
+      border-radius: 50%;
+      background: rgba(29, 101, 166, 0.08);
     }
 
     .stat strong {
@@ -289,6 +357,13 @@
 
     .section {
       padding: 76px 0;
+    }
+
+    .section.alt {
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.72) 0%, rgba(238, 244, 249, 0.85) 100%);
+      border-top: 1px solid rgba(220, 228, 237, 0.72);
+      border-bottom: 1px solid rgba(220, 228, 237, 0.72);
     }
 
     .section-head {
@@ -325,8 +400,8 @@
 
     .quote-wrap {
       display: grid;
-      grid-template-columns: minmax(320px, 410px) minmax(0, 1fr);
-      gap: 18px;
+      grid-template-columns: minmax(340px, 430px) minmax(0, 1fr);
+      gap: 24px;
       align-items: start;
     }
 
@@ -335,6 +410,23 @@
       border-radius: var(--radius);
       background: var(--panel);
       box-shadow: var(--shadow);
+    }
+
+    .panel,
+    .service-card,
+    .driver-card,
+    .about-metric,
+    .reason-card {
+      transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+    }
+
+    .service-card:hover,
+    .driver-card:hover,
+    .about-metric:hover,
+    .reason-card:hover {
+      transform: translateY(-3px);
+      border-color: rgba(29, 101, 166, 0.24);
+      box-shadow: 0 20px 48px rgba(8, 36, 68, 0.11);
     }
 
     .form-panel {
@@ -617,9 +709,9 @@
     }
 
     .empty-state {
-      padding: 42px 24px;
+      padding: 0;
       color: var(--muted);
-      text-align: center;
+      text-align: left;
     }
 
     .empty-state strong {
@@ -627,6 +719,197 @@
       margin-bottom: 8px;
       color: var(--navy);
       font-size: 18px;
+    }
+
+    .quote-workbench {
+      display: grid;
+      grid-template-columns: 1fr 0.95fr;
+      gap: 1px;
+      min-height: 452px;
+      background: var(--line);
+    }
+
+    .quote-visual,
+    .quote-guidance {
+      background: #fff;
+      padding: 28px;
+    }
+
+    .quote-visual {
+      position: relative;
+      overflow: hidden;
+      background:
+        linear-gradient(135deg, rgba(6, 38, 74, 0.96), rgba(12, 55, 104, 0.90)),
+        radial-gradient(circle at 82% 18%, rgba(155, 196, 232, 0.28), transparent 36%);
+      color: #fff;
+    }
+
+    .quote-visual::before {
+      content: "";
+      position: absolute;
+      inset: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      border-radius: 10px;
+    }
+
+    .route-map {
+      position: relative;
+      height: 250px;
+      margin-top: 18px;
+      border-radius: 8px;
+      background:
+        linear-gradient(rgba(255, 255, 255, 0.08) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.08) 1px, transparent 1px);
+      background-size: 28px 28px;
+    }
+
+    .route-line-visual {
+      position: absolute;
+      left: 16%;
+      right: 16%;
+      top: 50%;
+      height: 2px;
+      background: linear-gradient(90deg, #9bc4e8, #ffffff, #9bc4e8);
+      transform: rotate(-12deg);
+      transform-origin: center;
+    }
+
+    .map-node {
+      position: absolute;
+      display: grid;
+      place-items: center;
+      width: 54px;
+      height: 54px;
+      border: 2px solid rgba(255, 255, 255, 0.86);
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.12);
+      box-shadow: 0 14px 35px rgba(0, 0, 0, 0.22);
+    }
+
+    .map-node svg {
+      width: 25px;
+      height: 25px;
+      stroke: #fff;
+    }
+
+    .node-la {
+      left: 9%;
+      top: 51%;
+    }
+
+    .node-tx {
+      left: 44%;
+      top: 35%;
+    }
+
+    .node-east {
+      right: 9%;
+      top: 23%;
+    }
+
+    .quote-visual h3,
+    .quote-visual p {
+      position: relative;
+      z-index: 1;
+    }
+
+    .quote-visual h3 {
+      color: #fff;
+      font-size: 20px;
+      margin-bottom: 8px;
+    }
+
+    .quote-visual p {
+      color: #d8e7f5;
+      font-size: 14px;
+      line-height: 1.7;
+    }
+
+    .quote-guidance {
+      display: grid;
+      align-content: center;
+      gap: 16px;
+    }
+
+    .quote-step {
+      display: grid;
+      grid-template-columns: 42px 1fr;
+      gap: 12px;
+      align-items: start;
+      border: 1px solid #e3ebf3;
+      border-radius: 8px;
+      padding: 14px;
+      background: #fbfdff;
+    }
+
+    .quote-step span {
+      display: grid;
+      place-items: center;
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      color: #fff;
+      background: var(--navy);
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .quote-step strong {
+      display: block;
+      color: var(--navy);
+      font-size: 15px;
+      margin-bottom: 4px;
+    }
+
+    .quote-step p {
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.55;
+    }
+
+    .reason-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 18px;
+    }
+
+    .reason-card {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 28px 22px;
+      background: rgba(255, 255, 255, 0.92);
+      text-align: center;
+      box-shadow: 0 12px 30px rgba(8, 36, 68, 0.07);
+    }
+
+    .reason-icon {
+      display: grid;
+      place-items: center;
+      width: 96px;
+      height: 96px;
+      margin: 0 auto 20px;
+      border: 2px solid rgba(29, 101, 166, 0.28);
+      border-radius: 50%;
+      background: linear-gradient(180deg, #ffffff, #f2f7fb);
+      color: var(--blue);
+    }
+
+    .reason-icon svg {
+      width: 44px;
+      height: 44px;
+      stroke: currentColor;
+    }
+
+    .reason-card h3 {
+      color: var(--navy);
+      font-size: 18px;
+      margin-bottom: 10px;
+    }
+
+    .reason-card p {
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.7;
     }
 
     .service-grid,
@@ -650,6 +933,31 @@
       box-shadow: 0 12px 30px rgba(8, 36, 68, 0.07);
     }
 
+    .service-card {
+      position: relative;
+      overflow: hidden;
+      min-height: 238px;
+      background:
+        linear-gradient(180deg, #ffffff 0%, #f8fbfe 100%);
+    }
+
+    .service-card::after {
+      content: "";
+      position: absolute;
+      right: -42px;
+      bottom: -42px;
+      width: 126px;
+      height: 126px;
+      border-radius: 50%;
+      background: rgba(29, 101, 166, 0.08);
+      z-index: 0;
+    }
+
+    .service-card > * {
+      position: relative;
+      z-index: 1;
+    }
+
     .service-card h3,
     .driver-card h3,
     .about-card h3 {
@@ -670,13 +978,21 @@
     .icon-box {
       display: grid;
       place-items: center;
-      width: 44px;
-      height: 44px;
+      width: 62px;
+      height: 62px;
       margin-bottom: 18px;
       border-radius: 6px;
-      color: #fff;
-      background: var(--navy);
+      color: var(--blue);
+      background: #edf5fb;
       font-weight: 600;
+    }
+
+    .icon-box svg {
+      width: 32px;
+      height: 32px;
+      stroke: currentColor;
+      position: relative;
+      z-index: 1;
     }
 
     .driver-section {
@@ -686,7 +1002,7 @@
     }
 
     .driver-grid {
-      grid-template-columns: 1.1fr 0.9fr;
+      grid-template-columns: minmax(0, 1.08fr) minmax(330px, 0.92fr);
       align-items: stretch;
     }
 
@@ -715,6 +1031,91 @@
       color: #dbe8f4;
       background: rgba(255, 255, 255, 0.06);
       font-size: 14px;
+    }
+
+    .driver-stack {
+      display: grid;
+      gap: 18px;
+    }
+
+    .driver-visual-card {
+      position: relative;
+      overflow: hidden;
+      min-height: 232px;
+      color: #fff;
+      background:
+        linear-gradient(135deg, rgba(6, 38, 74, 0.95), rgba(29, 101, 166, 0.82)),
+        radial-gradient(circle at 84% 16%, rgba(255, 255, 255, 0.22), transparent 34%);
+    }
+
+    .driver-visual-card h3,
+    .driver-visual-card p {
+      position: relative;
+      z-index: 1;
+      color: #fff;
+    }
+
+    .driver-road {
+      position: absolute;
+      left: 24px;
+      right: 24px;
+      bottom: 30px;
+      height: 74px;
+      border-bottom: 2px solid rgba(255, 255, 255, 0.52);
+    }
+
+    .driver-road::before,
+    .driver-road::after {
+      content: "";
+      position: absolute;
+      bottom: -6px;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: #fff;
+      box-shadow: 0 0 0 8px rgba(255, 255, 255, 0.14);
+    }
+
+    .driver-road::before {
+      left: 14%;
+    }
+
+    .driver-road::after {
+      right: 12%;
+    }
+
+    .driver-truck {
+      position: absolute;
+      right: 54px;
+      bottom: 68px;
+      width: 98px;
+      height: 48px;
+      border: 2px solid rgba(255, 255, 255, 0.86);
+      border-radius: 8px;
+    }
+
+    .driver-truck::before {
+      content: "";
+      position: absolute;
+      right: -32px;
+      bottom: -2px;
+      width: 34px;
+      height: 30px;
+      border: 2px solid rgba(255, 255, 255, 0.86);
+      border-left: 0;
+      border-radius: 0 8px 8px 0;
+    }
+
+    .driver-truck::after {
+      content: "";
+      position: absolute;
+      left: 12px;
+      right: -20px;
+      bottom: -12px;
+      height: 12px;
+      background:
+        radial-gradient(circle at 18px 6px, #fff 0 5px, transparent 6px),
+        radial-gradient(circle at calc(100% - 18px) 6px, #fff 0 5px, transparent 6px);
     }
 
     .about-grid {
@@ -833,10 +1234,15 @@
 
       .hero-stats,
       .quote-wrap,
+      .quote-workbench,
       .service-grid,
       .driver-grid,
       .about-grid {
         grid-template-columns: 1fr;
+      }
+
+      .reason-grid {
+        grid-template-columns: repeat(2, 1fr);
       }
 
       .hero-stats {
@@ -903,8 +1309,18 @@
       }
 
       .metric-grid,
-      .about-metrics {
+      .about-metrics,
+      .reason-grid {
         grid-template-columns: 1fr;
+      }
+
+      .quote-visual,
+      .quote-guidance {
+        padding: 22px;
+      }
+
+      .route-map {
+        height: 210px;
       }
 
       .quote-head {
@@ -944,6 +1360,7 @@
   </nav>
 
   <header class="hero" id="home">
+    <div class="hero-grid" aria-hidden="true"></div>
     <div class="container hero-content">
       <span class="eyebrow">Keystone Logistics</span>
       <h1>北美仓配一体化报价与运输服务</h1>
@@ -951,6 +1368,12 @@
       <div class="hero-actions">
         <a class="primary-btn" href="#quote">获取即时报价</a>
         <a class="secondary-btn" href="#about">了解仓网能力</a>
+      </div>
+      <div class="hero-badges" aria-label="核心服务">
+        <span>仓到仓报价</span>
+        <span>干线调拨</span>
+        <span>Last mile 配送</span>
+        <span>中大件履约</span>
       </div>
     </div>
   </header>
@@ -971,6 +1394,62 @@
     <div class="stat">
       <strong>20年</strong>
       <span>出海物流服务经验</span>
+    </div>
+  </section>
+
+  <section class="section alt">
+    <div class="container">
+      <div class="section-head">
+        <div>
+          <span class="section-kicker">Why Keystone</span>
+          <h2>为什么选择 KEYSTONE</h2>
+        </div>
+        <p class="section-desc">把仓网、线路、系统和本地运力整合到一个报价入口，让客户更快理解价格，也让运营更容易承接后续订单。</p>
+      </div>
+
+      <div class="reason-grid">
+        <article class="reason-card">
+          <div class="reason-icon" aria-hidden="true">
+            <svg viewBox="0 0 48 48" fill="none" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M27 6 13 25l9-1-3 18 16-22-10 1 2-15Z"/>
+            </svg>
+          </div>
+          <h3>快速响应</h3>
+          <p>输入仓库、邮编和板数，即时生成客户可见报价，减少反复询价。</p>
+        </article>
+        <article class="reason-card">
+          <div class="reason-icon" aria-hidden="true">
+            <svg viewBox="0 0 48 48" fill="none" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M10 16h28l-4 22H14l-4-22Z"/>
+              <path d="M18 16a6 6 0 0 1 12 0"/>
+              <path d="M18 27h12"/>
+            </svg>
+          </div>
+          <h3>线路清晰</h3>
+          <p>按美西、美中、美东区域判断线路，适配北美仓群调拨场景。</p>
+        </article>
+        <article class="reason-card">
+          <div class="reason-icon" aria-hidden="true">
+            <svg viewBox="0 0 48 48" fill="none" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M6 30h25V14H6v16Z"/>
+              <path d="M31 20h7l4 5v5H31V20Z"/>
+              <path d="M13 36a4 4 0 1 0 0-8 4 4 0 0 0 0 8ZM35 36a4 4 0 1 0 0-8 4 4 0 0 0 0 8Z"/>
+            </svg>
+          </div>
+          <h3>仓配联动</h3>
+          <p>支持仓到仓与全程配送报价，覆盖干线和末端交付组合。</p>
+        </article>
+        <article class="reason-card">
+          <div class="reason-icon" aria-hidden="true">
+            <svg viewBox="0 0 48 48" fill="none" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M16 25 22 31 34 17"/>
+              <path d="M24 43s15-7 15-22V9L24 4 9 9v12c0 15 15 22 15 22Z"/>
+            </svg>
+          </div>
+          <h3>专业服务</h3>
+          <p>面向跨境卖家和中大件客户，提供稳定的仓储、调拨与配送支持。</p>
+        </article>
+      </div>
     </div>
   </section>
 
@@ -1035,8 +1514,38 @@
         <div class="results" id="results">
           <section class="panel quote-panel">
             <div class="empty-state">
-              <strong>输入目的地邮编后生成报价</strong>
-              <p>系统会自动判断起始仓区域、目的地区域和对应线路。</p>
+              <div class="quote-workbench">
+                <div class="quote-visual">
+                  <h3>北美仓群线路预览</h3>
+                  <p>围绕 LA、TX、NJ/PA 核心节点，快速匹配仓到仓与全程配送报价。</p>
+                  <div class="route-map" aria-hidden="true">
+                    <span class="route-line-visual"></span>
+                    <span class="map-node node-la">
+                      <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M5 21V7l8-4 6 3v15"/><path d="M9 21v-8h6v8"/></svg>
+                    </span>
+                    <span class="map-node node-tx">
+                      <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17h11V6H3v11Z"/><path d="M14 10h4l3 4v3h-7v-7Z"/><path d="M7 20a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM17 20a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"/></svg>
+                    </span>
+                    <span class="map-node node-east">
+                      <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-5 7-11a7 7 0 1 0-14 0c0 6 7 11 7 11Z"/><path d="M12 10h.01"/></svg>
+                    </span>
+                  </div>
+                </div>
+                <div class="quote-guidance">
+                  <div class="quote-step">
+                    <span>01</span>
+                    <div><strong>选择起始仓</strong><p>LA、HOU、NJ、PA 等仓库自动映射区域。</p></div>
+                  </div>
+                  <div class="quote-step">
+                    <span>02</span>
+                    <div><strong>输入目的地邮编</strong><p>按邮编判断美西、美中、美东目的地区域。</p></div>
+                  </div>
+                  <div class="quote-step">
+                    <span>03</span>
+                    <div><strong>生成客户报价</strong><p>根据板数和 last mile 选项输出单板价和总价。</p></div>
+                  </div>
+                </div>
+              </div>
             </div>
           </section>
         </div>
@@ -1056,17 +1565,36 @@
 
       <div class="service-grid">
         <article class="service-card">
-          <div class="icon-box">01</div>
+          <div class="icon-box" aria-hidden="true">
+            <svg viewBox="0 0 48 48" fill="none" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M7 20 24 10l17 10v18H7V20Z"/>
+              <path d="M16 38V24h16v14"/>
+              <path d="M20 29h8"/>
+            </svg>
+          </div>
           <h3>海外仓与智能分仓</h3>
           <p>覆盖美西、美中、美东核心区域，支持仓储、一件代发、FBA中转、贴标、打包和多仓库存协同。</p>
         </article>
         <article class="service-card">
-          <div class="icon-box">02</div>
+          <div class="icon-box" aria-hidden="true">
+            <svg viewBox="0 0 48 48" fill="none" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M6 30h25V14H6v16Z"/>
+              <path d="M31 20h7l4 5v5H31V20Z"/>
+              <path d="M13 36a4 4 0 1 0 0-8 4 4 0 0 0 0 8ZM35 36a4 4 0 1 0 0-8 4 4 0 0 0 0 8Z"/>
+            </svg>
+          </div>
           <h3>干线调拨与仓到仓</h3>
           <p>围绕 LA、TX、NJ/PA 仓群进行区域线路报价，适合整车、拼板和旺季跨区域补货需求。</p>
         </article>
         <article class="service-card">
-          <div class="icon-box">03</div>
+          <div class="icon-box" aria-hidden="true">
+            <svg viewBox="0 0 48 48" fill="none" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 28h16"/>
+              <path d="M28 18h8l5 7v11H28V18Z"/>
+              <path d="M7 14h21v22H7V14Z"/>
+              <path d="M15 40a4 4 0 1 0 0-8 4 4 0 0 0 0 8ZM34 40a4 4 0 1 0 0-8 4 4 0 0 0 0 8Z"/>
+            </svg>
+          </div>
           <h3>Last mile 尾程配送</h3>
           <p>面向大件、家具、平台订单和本土客户交付场景，提供可与干线组合的全程配送报价。</p>
         </article>
@@ -1094,10 +1622,18 @@
             <span>仓配协同：预约、提货、签收、异常反馈</span>
           </div>
         </article>
-        <article class="driver-card">
-          <h3>加入要求</h3>
-          <p>具备合规车辆、保险和基础配送经验，能够稳定响应提派任务，并配合节点回传与签收资料管理。后续系统版本将开放在线资料提交入口。</p>
-        </article>
+        <div class="driver-stack">
+          <article class="driver-card driver-visual-card">
+            <h3>运力网络持续开放</h3>
+            <p>围绕核心仓群承接干线、末端和预约配送任务。</p>
+            <div class="driver-road" aria-hidden="true"></div>
+            <div class="driver-truck" aria-hidden="true"></div>
+          </article>
+          <article class="driver-card">
+            <h3>加入要求</h3>
+            <p>具备合规车辆、保险和基础配送经验，能够稳定响应提派任务，并配合节点回传与签收资料管理。后续系统版本将开放在线资料提交入口。</p>
+          </article>
+        </div>
       </div>
     </div>
   </section>
@@ -1338,8 +1874,38 @@
       results.innerHTML = `
         <section class="panel quote-panel">
           <div class="empty-state">
-            <strong>输入目的地邮编后生成报价</strong>
-            <p>系统会自动判断起始仓区域、目的地区域和对应线路。</p>
+            <div class="quote-workbench">
+              <div class="quote-visual">
+                <h3>北美仓群线路预览</h3>
+                <p>围绕 LA、TX、NJ/PA 核心节点，快速匹配仓到仓与全程配送报价。</p>
+                <div class="route-map" aria-hidden="true">
+                  <span class="route-line-visual"></span>
+                  <span class="map-node node-la">
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M5 21V7l8-4 6 3v15"/><path d="M9 21v-8h6v8"/></svg>
+                  </span>
+                  <span class="map-node node-tx">
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17h11V6H3v11Z"/><path d="M14 10h4l3 4v3h-7v-7Z"/><path d="M7 20a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM17 20a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"/></svg>
+                  </span>
+                  <span class="map-node node-east">
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-5 7-11a7 7 0 1 0-14 0c0 6 7 11 7 11Z"/><path d="M12 10h.01"/></svg>
+                  </span>
+                </div>
+              </div>
+              <div class="quote-guidance">
+                <div class="quote-step">
+                  <span>01</span>
+                  <div><strong>选择起始仓</strong><p>LA、HOU、NJ、PA 等仓库自动映射区域。</p></div>
+                </div>
+                <div class="quote-step">
+                  <span>02</span>
+                  <div><strong>输入目的地邮编</strong><p>按邮编判断美西、美中、美东目的地区域。</p></div>
+                </div>
+                <div class="quote-step">
+                  <span>03</span>
+                  <div><strong>生成客户报价</strong><p>根据板数和 last mile 选项输出单板价和总价。</p></div>
+                </div>
+              </div>
+            </div>
           </div>
         </section>
       `;
