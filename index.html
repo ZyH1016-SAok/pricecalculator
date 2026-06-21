@@ -148,6 +148,35 @@
       transform: translateY(-1px);
     }
 
+    .language-switch {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 4px;
+      background: #f7fafc;
+    }
+
+    .language-switch button {
+      min-width: 42px;
+      height: 32px;
+      border: 0;
+      border-radius: 999px;
+      color: #526276;
+      background: transparent;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 700;
+      transition: color 0.18s ease, background 0.18s ease, box-shadow 0.18s ease;
+    }
+
+    .language-switch button.is-active {
+      color: #fff;
+      background: var(--navy);
+      box-shadow: 0 8px 20px rgba(6, 38, 74, 0.18);
+    }
+
     .hero {
       position: relative;
       min-height: 620px;
@@ -165,6 +194,9 @@
       background:
         linear-gradient(90deg, rgba(4, 25, 49, 0.93) 0%, rgba(4, 25, 49, 0.79) 40%, rgba(4, 25, 49, 0.20) 74%),
         url("logistics-hero.png") center / cover no-repeat;
+      transform: translate3d(0, var(--hero-shift, 0px), 0) scale(1.08);
+      transform-origin: center;
+      will-change: transform;
     }
 
     .hero::after {
@@ -187,6 +219,8 @@
         linear-gradient(90deg, rgba(255, 255, 255, 0.08) 1px, transparent 1px);
       background-size: 72px 72px;
       mask-image: linear-gradient(90deg, rgba(0, 0, 0, 0.55), transparent 62%);
+      transform: translate3d(0, var(--grid-shift, 0px), 0);
+      will-change: transform;
     }
 
     .hero-content {
@@ -194,6 +228,8 @@
       z-index: 1;
       max-width: 650px;
       padding: 72px 0 118px;
+      transform: translate3d(0, var(--content-shift, 0px), 0);
+      will-change: transform;
     }
 
     .eyebrow {
@@ -319,6 +355,8 @@
       border-radius: var(--radius);
       background: var(--line);
       box-shadow: var(--shadow);
+      transform: translate3d(0, var(--stats-shift, 0px), 0);
+      will-change: transform;
     }
 
     .stat {
@@ -1157,6 +1195,11 @@
       line-height: 1.45;
     }
 
+    [data-parallax-card] {
+      transform: translate3d(0, var(--card-shift, 0px), 0);
+      will-change: transform;
+    }
+
     footer {
       padding: 28px 0;
       color: #c9d6e4;
@@ -1272,6 +1315,10 @@
         display: none;
       }
 
+      .language-switch {
+        margin-left: auto;
+      }
+
       .hero {
         min-height: 620px;
       }
@@ -1355,6 +1402,11 @@
         <a href="#about">关于我们</a>
       </div>
 
+      <div class="language-switch" aria-label="Language">
+        <button type="button" class="is-active" data-lang-btn="zh">中</button>
+        <button type="button" data-lang-btn="en">EN</button>
+      </div>
+
       <a class="nav-cta" href="#quote">立即报价</a>
     </div>
   </nav>
@@ -1408,7 +1460,7 @@
       </div>
 
       <div class="reason-grid">
-        <article class="reason-card">
+        <article class="reason-card" data-parallax-card>
           <div class="reason-icon" aria-hidden="true">
             <svg viewBox="0 0 48 48" fill="none" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
               <path d="M27 6 13 25l9-1-3 18 16-22-10 1 2-15Z"/>
@@ -1417,7 +1469,7 @@
           <h3>快速响应</h3>
           <p>输入仓库、邮编和板数，即时生成客户可见报价，减少反复询价。</p>
         </article>
-        <article class="reason-card">
+        <article class="reason-card" data-parallax-card>
           <div class="reason-icon" aria-hidden="true">
             <svg viewBox="0 0 48 48" fill="none" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
               <path d="M10 16h28l-4 22H14l-4-22Z"/>
@@ -1428,7 +1480,7 @@
           <h3>线路清晰</h3>
           <p>按美西、美中、美东区域判断线路，适配北美仓群调拨场景。</p>
         </article>
-        <article class="reason-card">
+        <article class="reason-card" data-parallax-card>
           <div class="reason-icon" aria-hidden="true">
             <svg viewBox="0 0 48 48" fill="none" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
               <path d="M6 30h25V14H6v16Z"/>
@@ -1439,7 +1491,7 @@
           <h3>仓配联动</h3>
           <p>支持仓到仓与全程配送报价，覆盖干线和末端交付组合。</p>
         </article>
-        <article class="reason-card">
+        <article class="reason-card" data-parallax-card>
           <div class="reason-icon" aria-hidden="true">
             <svg viewBox="0 0 48 48" fill="none" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
               <path d="M16 25 22 31 34 17"/>
@@ -1712,6 +1764,344 @@
     const results = document.getElementById("results");
     const error = document.getElementById("error");
     const resetBtn = document.getElementById("resetBtn");
+    const langButtons = Array.from(document.querySelectorAll("[data-lang-btn]"));
+    let currentLang = localStorage.getItem("keystoneLang") || "zh";
+
+    const I18N = {
+      zh: {
+        brand: "欧美中大件海外仓解决方案",
+        navHome: "首页",
+        navQuote: "报价",
+        navDrivers: "司机加入",
+        navAbout: "关于我们",
+        navCta: "立即报价",
+        heroEyebrow: "Keystone Logistics",
+        heroTitle: "北美仓配一体化报价与运输服务",
+        heroText: "依托洛杉矶、休斯顿、新泽西、宾州等核心仓群，为跨境卖家提供仓到仓、干线调拨、尾程配送和中大件履约支持。",
+        heroPrimary: "获取即时报价",
+        heroSecondary: "了解仓网能力",
+        badge1: "仓到仓报价",
+        badge2: "干线调拨",
+        badge3: "Last mile 配送",
+        badge4: "中大件履约",
+        stat1: "自营海外仓网络",
+        stat2: "平方英尺仓储面积",
+        stat3: "年均发货柜量",
+        stat4: "出海物流服务经验",
+        whyTitle: "为什么选择 KEYSTONE",
+        whyDesc: "把仓网、线路、系统和本地运力整合到一个报价入口，让客户更快理解价格，也让运营更容易承接后续订单。",
+        why1Title: "快速响应",
+        why1Text: "输入仓库、邮编和板数，即时生成客户可见报价，减少反复询价。",
+        why2Title: "线路清晰",
+        why2Text: "按美西、美中、美东区域判断线路，适配北美仓群调拨场景。",
+        why3Title: "仓配联动",
+        why3Text: "支持仓到仓与全程配送报价，覆盖干线和末端交付组合。",
+        why4Title: "专业服务",
+        why4Text: "面向跨境卖家和中大件客户，提供稳定的仓储、调拨与配送支持。",
+        quoteTitle: "客户报价",
+        quoteDesc: "选择起始仓、输入目的地邮编和板数，系统会根据线路区域自动生成仓到仓或全程配送报价。",
+        quoteInput: "报价输入",
+        instant: "即时计算",
+        originWarehouse: "起始仓库",
+        destinationZip: "目的地邮编",
+        zipPlaceholder: "例如 75201",
+        pallets: "板数",
+        includeLastMile: "包含 last mile",
+        lastMileHint: "开启后按全程报价计算",
+        calculate: "计算报价",
+        reset: "重置",
+        workbenchTitle: "北美仓群线路预览",
+        workbenchText: "围绕 LA、TX、NJ/PA 核心节点，快速匹配仓到仓与全程配送报价。",
+        step1Title: "选择起始仓",
+        step1Text: "LA、HOU、NJ、PA 等仓库自动映射区域。",
+        step2Title: "输入目的地邮编",
+        step2Text: "按邮编判断美西、美中、美东目的地区域。",
+        step3Title: "生成客户报价",
+        step3Text: "根据板数和 last mile 选项输出单板价和总价。",
+        servicesTitle: "覆盖仓储、干线、尾程的北美服务网络",
+        servicesDesc: "围绕跨境卖家在北美的仓配需求，提供可组合的履约服务，支持中大件、标件、多仓调拨和旺季补仓。",
+        service1Title: "海外仓与智能分仓",
+        service1Text: "覆盖美西、美中、美东核心区域，支持仓储、一件代发、FBA中转、贴标、打包和多仓库存协同。",
+        service2Title: "干线调拨与仓到仓",
+        service2Text: "围绕 LA、TX、NJ/PA 仓群进行区域线路报价，适合整车、拼板和旺季跨区域补货需求。",
+        service3Title: "Last mile 尾程配送",
+        service3Text: "面向大件、家具、平台订单和本土客户交付场景，提供可与干线组合的全程配送报价。",
+        driversTitle: "司机与承运商加入",
+        driversDesc: "欢迎具备北美本地配送、干线运输、仓配协同能力的司机和承运商加入网络，共同服务跨境卖家。",
+        driverCoop: "合作方向",
+        driverCoopText: "我们持续拓展北美本地运力网络，覆盖仓到仓调拨、末端派送、预约送仓、超大件配送等业务场景。",
+        driverList1: "干线运输：LA / TX / NJ / PA 等核心仓群线路",
+        driverList2: "末端配送：住宅、商业地址和平台订单交付",
+        driverList3: "仓配协同：预约、提货、签收、异常反馈",
+        driverVisualTitle: "运力网络持续开放",
+        driverVisualText: "围绕核心仓群承接干线、末端和预约配送任务。",
+        driverReq: "加入要求",
+        driverReqText: "具备合规车辆、保险和基础配送经验，能够稳定响应提派任务，并配合节点回传与签收资料管理。后续系统版本将开放在线资料提交入口。",
+        aboutTitle: "关于强基供应链",
+        aboutText: "强基供应链聚焦欧美市场，面向跨境电商卖家和中大件客户提供海外仓、国际运输、末端派送和全链路系统化服务。依托自营仓群和数字化系统，持续提升北美仓配一体化的交付效率与服务稳定性。",
+        about1: "平方英尺洛杉矶仓群，位于美西物流要塞",
+        about2: "平方英尺新泽西仓群，覆盖美东核心市场",
+        about3: "休斯顿仓群联动，支撑美中区域调拨",
+        about4: "自研系统支持仓储、配送和节点管理",
+        footerLeft: "KEYSTONE 北美物流报价",
+        footerRight: "仓配一体化 · 干线调拨 · Last mile",
+        resultTitle: "报价结果",
+        fullQuote: "全程报价",
+        warehouseQuote: "仓到仓报价",
+        perPalletQuote: "单板报价",
+        totalQuote: "总报价",
+        autoCalculated: "已按当前线路自动计算",
+        quoteDetail: "客户报价明细",
+        quoteType: "报价类型",
+        origin: "起始仓",
+        destinationRegion: "目的地区域",
+        customerTotal: "客户总价",
+        regionWest: "美西",
+        regionCentral: "美中",
+        regionEast: "美东",
+        zipError: "请输入 5 位美国邮编。",
+        palletError: "板数必须是大于 0 的整数。",
+        rangeError: "邮编不在可报价范围内。",
+        palletUnit: "板"
+      },
+      en: {
+        brand: "Oversized Warehousing Solutions for Europe and North America",
+        navHome: "Home",
+        navQuote: "Quote",
+        navDrivers: "Driver Network",
+        navAbout: "About",
+        navCta: "Get Quote",
+        heroEyebrow: "Keystone Logistics",
+        heroTitle: "North America warehousing, freight, and delivery quotes",
+        heroText: "Built around core warehouse clusters in Los Angeles, Houston, New Jersey, and Pennsylvania, our network supports warehouse-to-warehouse moves, linehaul transfers, last-mile delivery, and oversized fulfillment.",
+        heroPrimary: "Get Instant Quote",
+        heroSecondary: "Explore Network",
+        badge1: "Warehouse-to-warehouse",
+        badge2: "Linehaul transfer",
+        badge3: "Last-mile delivery",
+        badge4: "Oversized freight",
+        stat1: "self-operated overseas warehouses",
+        stat2: "sq ft of warehouse space",
+        stat3: "annual container volume",
+        stat4: "cross-border logistics experience",
+        whyTitle: "Why Choose KEYSTONE",
+        whyDesc: "Warehouse coverage, route logic, operating systems, and local carrier capacity are brought into one quote entry point for faster customer pricing and smoother order handoff.",
+        why1Title: "Fast response",
+        why1Text: "Enter warehouse, ZIP code, and pallet count to generate a customer-facing quote instantly.",
+        why2Title: "Clear routes",
+        why2Text: "Routes are mapped by West, Central, and East U.S. regions to match warehouse transfer needs.",
+        why3Title: "Warehousing plus delivery",
+        why3Text: "Supports warehouse-to-warehouse and full-service quotes across linehaul and last mile.",
+        why4Title: "Professional service",
+        why4Text: "Stable warehousing, transfer, and delivery support for cross-border sellers and oversized freight.",
+        quoteTitle: "Customer Quote",
+        quoteDesc: "Select an origin warehouse, destination ZIP code, and pallet count. The system generates warehouse-to-warehouse or full-service delivery pricing by route region.",
+        quoteInput: "Quote Input",
+        instant: "Instant",
+        originWarehouse: "Origin Warehouse",
+        destinationZip: "Destination ZIP",
+        zipPlaceholder: "e.g. 75201",
+        pallets: "Pallets",
+        includeLastMile: "Include last mile",
+        lastMileHint: "Turn on for full-service pricing",
+        calculate: "Calculate",
+        reset: "Reset",
+        workbenchTitle: "North America route preview",
+        workbenchText: "Match warehouse-to-warehouse and full-service pricing across LA, TX, and NJ/PA hubs.",
+        step1Title: "Choose origin",
+        step1Text: "LA, HOU, NJ, and PA warehouses map automatically to regions.",
+        step2Title: "Enter ZIP code",
+        step2Text: "ZIP code determines West, Central, or East destination region.",
+        step3Title: "Generate quote",
+        step3Text: "Pallet count and last-mile option produce unit and total pricing.",
+        servicesTitle: "North America warehousing, linehaul, and last-mile network",
+        servicesDesc: "Composable fulfillment services for cross-border sellers, oversized items, multi-warehouse transfers, and peak-season replenishment.",
+        service1Title: "Overseas warehousing",
+        service1Text: "Coverage across West, Central, and East U.S. regions with storage, FBA transfer, labeling, packing, and inventory coordination.",
+        service2Title: "Linehaul transfer",
+        service2Text: "Regional quotes around LA, TX, and NJ/PA warehouse clusters for truckload, palletized transfer, and replenishment needs.",
+        service3Title: "Last-mile delivery",
+        service3Text: "Full-service delivery pricing for oversized goods, furniture, platform orders, and local customer delivery scenarios.",
+        driversTitle: "Drivers and Carriers",
+        driversDesc: "We welcome drivers and carriers with local delivery, linehaul, and warehouse coordination capabilities to join our North America network.",
+        driverCoop: "Cooperation scope",
+        driverCoopText: "We continue expanding local capacity for warehouse transfers, last-mile delivery, appointment delivery, and oversized freight.",
+        driverList1: "Linehaul: LA / TX / NJ / PA warehouse cluster lanes",
+        driverList2: "Last mile: residential, commercial, and platform order delivery",
+        driverList3: "Warehouse coordination: pickup, appointment, POD, and exception feedback",
+        driverVisualTitle: "Carrier network open",
+        driverVisualText: "Supporting linehaul, last mile, and appointment delivery around core hubs.",
+        driverReq: "Requirements",
+        driverReqText: "Qualified vehicles, insurance, and delivery experience are expected, along with reliable task response and POD or status updates. Online onboarding will be added in a later system version.",
+        aboutTitle: "About Keystone Supply Chain",
+        aboutText: "Keystone Supply Chain focuses on Europe and North America, serving cross-border sellers and oversized customers with overseas warehousing, international transportation, last-mile delivery, and full-chain digital operations. With self-operated warehouses and in-house systems, Keystone continues improving North America warehousing and delivery performance.",
+        about1: "sq ft Los Angeles warehouse cluster in a key West Coast logistics hub",
+        about2: "sq ft New Jersey warehouse cluster covering core East Coast markets",
+        about3: "Houston warehouse cluster supporting Central U.S. transfers",
+        about4: "in-house OMS/WMS supporting warehousing, delivery, and milestones",
+        footerLeft: "KEYSTONE North America Logistics Quote",
+        footerRight: "Warehousing · Linehaul · Last mile",
+        resultTitle: "Quote Result",
+        fullQuote: "Full-service quote",
+        warehouseQuote: "Warehouse-to-warehouse quote",
+        perPalletQuote: "Per-pallet quote",
+        totalQuote: "Total quote",
+        autoCalculated: "Automatically calculated by current route",
+        quoteDetail: "Customer quote details",
+        quoteType: "Quote type",
+        origin: "Origin",
+        destinationRegion: "Destination region",
+        customerTotal: "Customer total",
+        regionWest: "West",
+        regionCentral: "Central",
+        regionEast: "East",
+        zipError: "Please enter a valid 5-digit U.S. ZIP code.",
+        palletError: "Pallet count must be a positive integer.",
+        rangeError: "ZIP code is outside the quote range.",
+        palletUnit: "pallets"
+      }
+    };
+
+    const staticTranslations = [
+      [".brand-copy strong", "brand"],
+      [".nav-menu a:nth-child(1)", "navHome"],
+      [".nav-menu a:nth-child(2)", "navQuote"],
+      [".nav-menu a:nth-child(3)", "navDrivers"],
+      [".nav-menu a:nth-child(4)", "navAbout"],
+      [".nav-cta", "navCta"],
+      [".eyebrow", "heroEyebrow"],
+      [".hero h1", "heroTitle"],
+      [".hero-text", "heroText"],
+      [".primary-btn", "heroPrimary"],
+      [".secondary-btn", "heroSecondary"],
+      [".hero-badges span:nth-child(1)", "badge1"],
+      [".hero-badges span:nth-child(2)", "badge2"],
+      [".hero-badges span:nth-child(3)", "badge3"],
+      [".hero-badges span:nth-child(4)", "badge4"],
+      [".hero-stats .stat:nth-child(1) span", "stat1"],
+      [".hero-stats .stat:nth-child(2) span", "stat2"],
+      [".hero-stats .stat:nth-child(3) span", "stat3"],
+      [".hero-stats .stat:nth-child(4) span", "stat4"],
+      [".section.alt h2", "whyTitle"],
+      [".section.alt .section-desc", "whyDesc"],
+      [".reason-card:nth-child(1) h3", "why1Title"],
+      [".reason-card:nth-child(1) p", "why1Text"],
+      [".reason-card:nth-child(2) h3", "why2Title"],
+      [".reason-card:nth-child(2) p", "why2Text"],
+      [".reason-card:nth-child(3) h3", "why3Title"],
+      [".reason-card:nth-child(3) p", "why3Text"],
+      [".reason-card:nth-child(4) h3", "why4Title"],
+      [".reason-card:nth-child(4) p", "why4Text"],
+      ["#quote .section-head h2", "quoteTitle"],
+      ["#quote .section-desc", "quoteDesc"],
+      [".form-panel .section-title h3", "quoteInput"],
+      [".status-pill", "instant"],
+      ["label[for='warehouse']", "originWarehouse"],
+      ["label[for='zip']", "destinationZip"],
+      ["label[for='pallets']", "pallets"],
+      [".toggle-copy strong", "includeLastMile"],
+      [".toggle-copy span", "lastMileHint"],
+      [".button-row .primary", "calculate"],
+      [".button-row .ghost", "reset"],
+      [".section:not(.alt):not(.driver-section):not(#quote):not(#about) .section-head h2", "servicesTitle"],
+      [".section:not(.alt):not(.driver-section):not(#quote):not(#about) .section-desc", "servicesDesc"],
+      [".service-card:nth-child(1) h3", "service1Title"],
+      [".service-card:nth-child(1) p", "service1Text"],
+      [".service-card:nth-child(2) h3", "service2Title"],
+      [".service-card:nth-child(2) p", "service2Text"],
+      [".service-card:nth-child(3) h3", "service3Title"],
+      [".service-card:nth-child(3) p", "service3Text"],
+      [".driver-section .section-head h2", "driversTitle"],
+      [".driver-section .section-desc", "driversDesc"],
+      [".driver-panel h3", "driverCoop"],
+      [".driver-panel > p", "driverCoopText"],
+      [".driver-list span:nth-child(1)", "driverList1"],
+      [".driver-list span:nth-child(2)", "driverList2"],
+      [".driver-list span:nth-child(3)", "driverList3"],
+      [".driver-visual-card h3", "driverVisualTitle"],
+      [".driver-visual-card p", "driverVisualText"],
+      [".driver-stack .driver-card:not(.driver-visual-card) h3", "driverReq"],
+      [".driver-stack .driver-card:not(.driver-visual-card) p", "driverReqText"],
+      ["#about h2", "aboutTitle"],
+      [".about-copy", "aboutText"],
+      [".about-metric:nth-child(1) span", "about1"],
+      [".about-metric:nth-child(2) span", "about2"],
+      [".about-metric:nth-child(3) span", "about3"],
+      [".about-metric:nth-child(4) span", "about4"],
+      [".footer-inner span:nth-child(1)", "footerLeft"],
+      [".footer-inner span:nth-child(2)", "footerRight"]
+    ];
+
+    function t(key) {
+      return I18N[currentLang][key] || I18N.zh[key] || key;
+    }
+
+    function regionLabel(region) {
+      const keys = {
+        west: "regionWest",
+        central: "regionCentral",
+        east: "regionEast"
+      };
+      return t(keys[region]);
+    }
+
+    function quoteWorkbenchTemplate() {
+      return `
+        <section class="panel quote-panel">
+          <div class="empty-state">
+            <div class="quote-workbench">
+              <div class="quote-visual">
+                <h3>${t("workbenchTitle")}</h3>
+                <p>${t("workbenchText")}</p>
+                <div class="route-map" aria-hidden="true">
+                  <span class="route-line-visual"></span>
+                  <span class="map-node node-la">
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M5 21V7l8-4 6 3v15"/><path d="M9 21v-8h6v8"/></svg>
+                  </span>
+                  <span class="map-node node-tx">
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17h11V6H3v11Z"/><path d="M14 10h4l3 4v3h-7v-7Z"/><path d="M7 20a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM17 20a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"/></svg>
+                  </span>
+                  <span class="map-node node-east">
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-5 7-11a7 7 0 1 0-14 0c0 6 7 11 7 11Z"/><path d="M12 10h.01"/></svg>
+                  </span>
+                </div>
+              </div>
+              <div class="quote-guidance">
+                <div class="quote-step">
+                  <span>01</span>
+                  <div><strong>${t("step1Title")}</strong><p>${t("step1Text")}</p></div>
+                </div>
+                <div class="quote-step">
+                  <span>02</span>
+                  <div><strong>${t("step2Title")}</strong><p>${t("step2Text")}</p></div>
+                </div>
+                <div class="quote-step">
+                  <span>03</span>
+                  <div><strong>${t("step3Title")}</strong><p>${t("step3Text")}</p></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      `;
+    }
+
+    function applyLanguage() {
+      document.documentElement.lang = currentLang === "zh" ? "zh-CN" : "en";
+      staticTranslations.forEach(function ([selector, key]) {
+        const node = document.querySelector(selector);
+        if (node) node.textContent = t(key);
+      });
+      zipInput.placeholder = t("zipPlaceholder");
+      langButtons.forEach(function (button) {
+        button.classList.toggle("is-active", button.dataset.langBtn === currentLang);
+      });
+      if (!zipInput.value.trim()) {
+        results.innerHTML = quoteWorkbenchTemplate();
+      } else {
+        calculateQuote();
+      }
+    }
 
     function money(value) {
       return new Intl.NumberFormat("en-US", {
@@ -1743,15 +2133,15 @@
 
     function validateInputs(zip, pallets) {
       if (!/^\d{5}$/.test(zip)) {
-        return "请输入 5 位美国邮编。";
+        return t("zipError");
       }
 
       if (!Number.isInteger(pallets) || pallets < 1) {
-        return "板数必须是大于 0 的整数。";
+        return t("palletError");
       }
 
       if (!getDestinationRegion(zip)) {
-        return "邮编不在可报价范围内。";
+        return t("rangeError");
       }
 
       return "";
@@ -1801,53 +2191,53 @@
     }
 
     function renderQuote(quote) {
-      const quoteType = quote.hasLastMile ? "全程报价" : "仓到仓报价";
+      const quoteType = quote.hasLastMile ? t("fullQuote") : t("warehouseQuote");
 
       results.innerHTML = `
         <section class="panel quote-panel">
           <div class="quote-head">
             <div>
-              <h3>报价结果</h3>
-              <p class="route-line">${quote.warehouseCode}（${REGION_LABELS[quote.warehouse.region]}） → ${quote.zip}（${REGION_LABELS[quote.destinationRegion]}）</p>
+              <h3>${t("resultTitle")}</h3>
+              <p class="route-line">${quote.warehouseCode} (${regionLabel(quote.warehouse.region)}) → ${quote.zip} (${regionLabel(quote.destinationRegion)})</p>
             </div>
             <span class="quote-type">${quoteType}</span>
           </div>
 
           <div class="metric-grid">
             <div class="metric">
-              <span>单板报价</span>
+              <span>${t("perPalletQuote")}</span>
               <strong>${money(quote.sellPerPallet)}</strong>
-              <small>已按当前线路自动计算</small>
+              <small>${t("autoCalculated")}</small>
             </div>
             <div class="metric">
-              <span>总报价</span>
+              <span>${t("totalQuote")}</span>
               <strong>${money(quote.total)}</strong>
-              <small>${quote.pallets} 板 × ${money(quote.sellPerPallet)}/板</small>
+              <small>${quote.pallets} ${t("palletUnit")} × ${money(quote.sellPerPallet)}</small>
             </div>
           </div>
         </section>
 
         <div class="details">
           <section class="panel detail-panel">
-            <h3>客户报价明细</h3>
+            <h3>${t("quoteDetail")}</h3>
             <div class="detail-row">
-              <span>报价类型</span>
+              <span>${t("quoteType")}</span>
               <span>${quoteType}</span>
             </div>
             <div class="detail-row">
-              <span>起始仓</span>
+              <span>${t("origin")}</span>
               <span>${quote.warehouseCode}</span>
             </div>
             <div class="detail-row">
-              <span>目的地区域</span>
-              <span>${REGION_LABELS[quote.destinationRegion]}</span>
+              <span>${t("destinationRegion")}</span>
+              <span>${regionLabel(quote.destinationRegion)}</span>
             </div>
             <div class="detail-row">
-              <span>板数</span>
+              <span>${t("pallets")}</span>
               <span>${quote.pallets}</span>
             </div>
             <div class="detail-row">
-              <span>客户总价</span>
+              <span>${t("customerTotal")}</span>
               <span>${money(quote.total)}</span>
             </div>
           </section>
@@ -1871,45 +2261,51 @@
     resetBtn.addEventListener("click", function () {
       form.reset();
       error.textContent = "";
-      results.innerHTML = `
-        <section class="panel quote-panel">
-          <div class="empty-state">
-            <div class="quote-workbench">
-              <div class="quote-visual">
-                <h3>北美仓群线路预览</h3>
-                <p>围绕 LA、TX、NJ/PA 核心节点，快速匹配仓到仓与全程配送报价。</p>
-                <div class="route-map" aria-hidden="true">
-                  <span class="route-line-visual"></span>
-                  <span class="map-node node-la">
-                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M5 21V7l8-4 6 3v15"/><path d="M9 21v-8h6v8"/></svg>
-                  </span>
-                  <span class="map-node node-tx">
-                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17h11V6H3v11Z"/><path d="M14 10h4l3 4v3h-7v-7Z"/><path d="M7 20a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM17 20a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"/></svg>
-                  </span>
-                  <span class="map-node node-east">
-                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-5 7-11a7 7 0 1 0-14 0c0 6 7 11 7 11Z"/><path d="M12 10h.01"/></svg>
-                  </span>
-                </div>
-              </div>
-              <div class="quote-guidance">
-                <div class="quote-step">
-                  <span>01</span>
-                  <div><strong>选择起始仓</strong><p>LA、HOU、NJ、PA 等仓库自动映射区域。</p></div>
-                </div>
-                <div class="quote-step">
-                  <span>02</span>
-                  <div><strong>输入目的地邮编</strong><p>按邮编判断美西、美中、美东目的地区域。</p></div>
-                </div>
-                <div class="quote-step">
-                  <span>03</span>
-                  <div><strong>生成客户报价</strong><p>根据板数和 last mile 选项输出单板价和总价。</p></div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-      `;
+      results.innerHTML = quoteWorkbenchTemplate();
     });
+
+    langButtons.forEach(function (button) {
+      button.addEventListener("click", function () {
+        currentLang = button.dataset.langBtn;
+        localStorage.setItem("keystoneLang", currentLang);
+        error.textContent = "";
+        applyLanguage();
+      });
+    });
+
+    function updateParallax() {
+      const y = window.scrollY || 0;
+      const heroShift = Math.min(90, y * 0.16);
+      const gridShift = Math.min(70, y * 0.10);
+      const contentShift = Math.min(34, y * -0.035);
+      const statsShift = Math.max(-36, Math.min(18, (y - 260) * -0.045));
+      document.documentElement.style.setProperty("--hero-shift", `${heroShift}px`);
+      document.documentElement.style.setProperty("--grid-shift", `${gridShift}px`);
+      document.documentElement.style.setProperty("--content-shift", `${contentShift}px`);
+      document.documentElement.style.setProperty("--stats-shift", `${statsShift}px`);
+
+      document.querySelectorAll("[data-parallax-card]").forEach(function (card, index) {
+        const rect = card.getBoundingClientRect();
+        const viewportMid = window.innerHeight / 2;
+        const distance = rect.top - viewportMid;
+        const shift = Math.max(-18, Math.min(18, distance * -0.018 + index * 1.5));
+        card.style.setProperty("--card-shift", `${shift}px`);
+      });
+    }
+
+    let parallaxPending = false;
+    window.addEventListener("scroll", function () {
+      if (parallaxPending) return;
+      parallaxPending = true;
+      requestAnimationFrame(function () {
+        updateParallax();
+        parallaxPending = false;
+      });
+    }, { passive: true });
+
+    window.addEventListener("resize", updateParallax);
+    applyLanguage();
+    updateParallax();
   </script>
 </body>
 </html>
