@@ -3,20 +3,21 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>北美物流报价器</title>
+  <title>KEYSTONE 北美物流报价</title>
   <style>
     :root {
-      --bg: #f5f7f9;
+      --navy: #06264a;
+      --navy-2: #0c3768;
+      --blue: #1d65a6;
+      --ink: #142133;
+      --muted: #627083;
+      --line: #dce4ed;
+      --bg: #f4f7fa;
       --panel: #ffffff;
-      --ink: #18202a;
-      --muted: #687382;
-      --line: #dce3ea;
-      --brand: #126b5c;
-      --brand-dark: #0b4f44;
-      --accent: #d87828;
-      --soft: #edf5f2;
-      --warning: #fff6e8;
-      --shadow: 0 18px 45px rgba(28, 39, 49, 0.10);
+      --soft: #eef4f9;
+      --accent: #2b7bbb;
+      --success: #12674f;
+      --shadow: 0 18px 48px rgba(8, 36, 68, 0.12);
       --radius: 8px;
     }
 
@@ -24,15 +25,21 @@
       box-sizing: border-box;
     }
 
+    html {
+      scroll-behavior: smooth;
+    }
+
     body {
       margin: 0;
-      min-height: 100vh;
       color: var(--ink);
-      background:
-        linear-gradient(180deg, #eef3f5 0%, var(--bg) 38%),
-        var(--bg);
-      font-family: Arial, "PingFang SC", "Microsoft YaHei", sans-serif;
+      background: var(--bg);
+      font-family: MiSans, "MiSans Latin", "PingFang SC", "Microsoft YaHei", Arial, sans-serif;
       letter-spacing: 0;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
     }
 
     button,
@@ -41,35 +48,148 @@
       font: inherit;
     }
 
-    .shell {
-      width: min(1180px, calc(100% - 32px));
+    .container {
+      width: min(1180px, calc(100% - 36px));
       margin: 0 auto;
-      padding: 30px 0 44px;
     }
 
-    header {
+    .navbar {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: rgba(255, 255, 255, 0.96);
+      border-bottom: 1px solid rgba(216, 226, 235, 0.92);
+      backdrop-filter: blur(12px);
+    }
+
+    .nav-inner {
       display: flex;
-      align-items: flex-end;
+      align-items: center;
       justify-content: space-between;
-      gap: 24px;
-      margin-bottom: 22px;
+      min-height: 72px;
+      gap: 28px;
     }
 
-    .brand {
+    .logo-link {
       display: flex;
       align-items: center;
       gap: 12px;
+      min-width: 0;
     }
 
-    .mark {
+    .logo-img {
+      width: 168px;
+      height: 48px;
+      object-fit: contain;
+      object-position: left center;
+      display: block;
+    }
+
+    .brand-copy {
       display: grid;
-      place-items: center;
-      width: 46px;
-      height: 46px;
-      border-radius: var(--radius);
+      gap: 2px;
+      border-left: 1px solid var(--line);
+      padding-left: 12px;
+    }
+
+    .brand-copy strong {
+      color: var(--navy);
+      font-size: 14px;
+      white-space: nowrap;
+    }
+
+    .brand-copy span {
+      color: var(--muted);
+      font-size: 12px;
+      white-space: nowrap;
+    }
+
+    .nav-menu {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .nav-menu a {
+      padding: 10px 14px;
+      border-radius: 6px;
+      color: #2f4054;
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    .nav-menu a:hover {
+      color: var(--navy);
+      background: var(--soft);
+    }
+
+    .nav-cta {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 40px;
+      border-radius: 6px;
+      padding: 0 16px;
       color: #fff;
-      background: var(--brand);
-      font-weight: 800;
+      background: var(--navy);
+      font-size: 14px;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    .hero {
+      position: relative;
+      min-height: 620px;
+      display: grid;
+      align-items: center;
+      overflow: hidden;
+      color: #fff;
+      background: var(--navy);
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(90deg, rgba(4, 25, 49, 0.93) 0%, rgba(4, 25, 49, 0.79) 40%, rgba(4, 25, 49, 0.20) 74%),
+        url("logistics-hero.png") center / cover no-repeat;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 90px;
+      background: linear-gradient(180deg, rgba(244, 247, 250, 0) 0%, var(--bg) 100%);
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      max-width: 650px;
+      padding: 72px 0 118px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 18px;
+      color: #d8e8f8;
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 34px;
+      height: 2px;
+      background: #9bc4e8;
     }
 
     h1,
@@ -79,28 +199,131 @@
       margin: 0;
     }
 
+    h1,
+    h2,
+    h3,
+    strong {
+      font-weight: 600;
+    }
+
     h1 {
-      font-size: 28px;
-      line-height: 1.2;
+      max-width: 620px;
+      font-size: 52px;
+      line-height: 1.08;
+      font-weight: 600;
     }
 
-    .subtitle {
-      margin-top: 6px;
-      color: var(--muted);
-      font-size: 14px;
+    .hero-text {
+      max-width: 560px;
+      margin-top: 20px;
+      color: #dbe6f2;
+      font-size: 18px;
+      line-height: 1.75;
     }
 
-    .config-note {
-      color: var(--brand-dark);
-      background: var(--soft);
-      border: 1px solid #cce1dc;
-      padding: 10px 12px;
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 34px;
+    }
+
+    .primary-btn,
+    .secondary-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 48px;
+      border-radius: 6px;
+      padding: 0 20px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .primary-btn {
+      color: var(--navy);
+      background: #fff;
+      border: 1px solid #fff;
+    }
+
+    .secondary-btn {
+      color: #fff;
+      border: 1px solid rgba(255, 255, 255, 0.48);
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    .hero-stats {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1px;
+      margin-top: -86px;
+      overflow: hidden;
+      border: 1px solid var(--line);
       border-radius: var(--radius);
-      font-size: 13px;
-      white-space: nowrap;
+      background: var(--line);
+      box-shadow: var(--shadow);
     }
 
-    .layout {
+    .stat {
+      min-height: 118px;
+      padding: 24px;
+      background: #fff;
+    }
+
+    .stat strong {
+      display: block;
+      color: var(--navy);
+      font-size: 30px;
+      line-height: 1;
+    }
+
+    .stat span {
+      display: block;
+      margin-top: 10px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
+    .section {
+      padding: 76px 0;
+    }
+
+    .section-head {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 24px;
+      margin-bottom: 24px;
+    }
+
+    .section-kicker {
+      display: block;
+      margin-bottom: 8px;
+      color: var(--blue);
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    h2 {
+      color: var(--navy);
+      font-size: 32px;
+      line-height: 1.2;
+      font-weight: 600;
+    }
+
+    .section-desc {
+      max-width: 460px;
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.7;
+    }
+
+    .quote-wrap {
       display: grid;
       grid-template-columns: minmax(320px, 410px) minmax(0, 1fr);
       gap: 18px;
@@ -108,9 +331,9 @@
     }
 
     .panel {
-      background: var(--panel);
       border: 1px solid var(--line);
       border-radius: var(--radius);
+      background: var(--panel);
       box-shadow: var(--shadow);
     }
 
@@ -126,18 +349,20 @@
       margin-bottom: 18px;
     }
 
-    .section-title h2 {
+    .section-title h3 {
+      color: var(--navy);
       font-size: 18px;
+      font-weight: 600;
     }
 
     .status-pill {
       flex: 0 0 auto;
       border-radius: 999px;
       padding: 6px 10px;
-      color: var(--brand-dark);
+      color: var(--navy);
       background: var(--soft);
       font-size: 12px;
-      font-weight: 700;
+      font-weight: 500;
     }
 
     .field {
@@ -147,9 +372,9 @@
     label {
       display: block;
       margin-bottom: 7px;
-      color: #34404b;
+      color: #34445a;
       font-size: 13px;
-      font-weight: 700;
+      font-weight: 500;
     }
 
     select,
@@ -157,8 +382,8 @@
     input[type="number"] {
       width: 100%;
       height: 44px;
-      border: 1px solid #cbd5df;
-      border-radius: var(--radius);
+      border: 1px solid #cbd6e1;
+      border-radius: 6px;
       padding: 0 12px;
       color: var(--ink);
       background: #fff;
@@ -168,8 +393,8 @@
 
     select:focus,
     input:focus {
-      border-color: var(--brand);
-      box-shadow: 0 0 0 3px rgba(18, 107, 92, 0.14);
+      border-color: var(--blue);
+      box-shadow: 0 0 0 3px rgba(29, 101, 166, 0.14);
     }
 
     .toggle-row {
@@ -177,11 +402,11 @@
       align-items: center;
       justify-content: space-between;
       gap: 16px;
-      min-height: 54px;
-      border: 1px solid #d8e0e8;
-      border-radius: var(--radius);
+      min-height: 56px;
+      border: 1px solid #d7e0ea;
+      border-radius: 6px;
       padding: 12px;
-      background: #fbfcfd;
+      background: #fbfcfe;
     }
 
     .toggle-copy strong {
@@ -214,7 +439,7 @@
       position: absolute;
       inset: 0;
       cursor: pointer;
-      background: #b7c1cc;
+      background: #aebbc8;
       border-radius: 999px;
       transition: 0.18s;
     }
@@ -229,11 +454,11 @@
       border-radius: 50%;
       background: #fff;
       transition: 0.18s;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.18);
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.16);
     }
 
     .switch input:checked + .slider {
-      background: var(--brand);
+      background: var(--navy);
     }
 
     .switch input:checked + .slider::before {
@@ -250,24 +475,24 @@
     .primary,
     .ghost {
       height: 44px;
-      border-radius: var(--radius);
+      border-radius: 6px;
       cursor: pointer;
-      font-weight: 800;
+      font-weight: 600;
     }
 
     .primary {
       border: 0;
       color: #fff;
-      background: var(--brand);
+      background: var(--navy);
     }
 
     .primary:hover {
-      background: var(--brand-dark);
+      background: var(--navy-2);
     }
 
     .ghost {
-      border: 1px solid #cbd5df;
-      color: #33404c;
+      border: 1px solid #cbd6e1;
+      color: #33465a;
       background: #fff;
       padding: 0 16px;
     }
@@ -277,7 +502,7 @@
       margin-top: 12px;
       color: #b33a2d;
       font-size: 13px;
-      font-weight: 700;
+      font-weight: 600;
     }
 
     .results {
@@ -296,9 +521,11 @@
       gap: 18px;
       padding: 22px;
       border-bottom: 1px solid var(--line);
+      background: linear-gradient(180deg, #ffffff 0%, #f9fbfd 100%);
     }
 
-    .quote-head h2 {
+    .quote-head h3 {
+      color: var(--navy);
       font-size: 18px;
     }
 
@@ -310,11 +537,11 @@
 
     .quote-type {
       color: #fff;
-      background: var(--accent);
+      background: var(--blue);
       border-radius: 999px;
       padding: 7px 11px;
       font-size: 12px;
-      font-weight: 800;
+      font-weight: 500;
       white-space: nowrap;
     }
 
@@ -335,12 +562,13 @@
       display: block;
       color: var(--muted);
       font-size: 13px;
-      font-weight: 700;
+      font-weight: 500;
     }
 
     .metric strong {
       display: block;
       margin-top: 12px;
+      color: var(--navy);
       font-size: 34px;
       line-height: 1;
     }
@@ -365,6 +593,7 @@
 
     .detail-panel h3 {
       margin-bottom: 14px;
+      color: var(--navy);
       font-size: 16px;
     }
 
@@ -373,8 +602,8 @@
       justify-content: space-between;
       gap: 12px;
       padding: 11px 0;
-      border-top: 1px solid #edf1f4;
-      color: #35414d;
+      border-top: 1px solid #edf2f6;
+      color: #35465a;
       font-size: 14px;
     }
 
@@ -384,16 +613,7 @@
 
     .detail-row span:last-child {
       text-align: right;
-      font-weight: 800;
-    }
-
-    .internal {
-      background: #fffdfa;
-      border-color: #f1dcc2;
-    }
-
-    .internal h3 {
-      color: #8a4a0f;
+      font-weight: 600;
     }
 
     .empty-state {
@@ -405,43 +625,285 @@
     .empty-state strong {
       display: block;
       margin-bottom: 8px;
-      color: var(--ink);
+      color: var(--navy);
       font-size: 18px;
     }
 
-    @media (max-width: 860px) {
-      header,
-      .layout,
-      .details {
-        grid-template-columns: 1fr;
-      }
-
-      header {
-        display: grid;
-        align-items: start;
-      }
-
-      .config-note {
-        white-space: normal;
-      }
+    .service-grid,
+    .driver-grid,
+    .about-grid {
+      display: grid;
+      gap: 18px;
     }
 
-    @media (max-width: 560px) {
-      .shell {
-        width: min(100% - 22px, 1180px);
-        padding-top: 18px;
+    .service-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    .service-card,
+    .driver-card,
+    .about-card {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: #fff;
+      padding: 24px;
+      box-shadow: 0 12px 30px rgba(8, 36, 68, 0.07);
+    }
+
+    .service-card h3,
+    .driver-card h3,
+    .about-card h3 {
+      color: var(--navy);
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+
+    .service-card p,
+    .driver-card p,
+    .about-card p {
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.75;
+    }
+
+    .icon-box {
+      display: grid;
+      place-items: center;
+      width: 44px;
+      height: 44px;
+      margin-bottom: 18px;
+      border-radius: 6px;
+      color: #fff;
+      background: var(--navy);
+      font-weight: 600;
+    }
+
+    .driver-section {
+      background: #fff;
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .driver-grid {
+      grid-template-columns: 1.1fr 0.9fr;
+      align-items: stretch;
+    }
+
+    .driver-panel {
+      color: #fff;
+      background: var(--navy);
+      border-color: var(--navy);
+    }
+
+    .driver-panel h3,
+    .driver-panel p {
+      color: #fff;
+    }
+
+    .driver-list {
+      display: grid;
+      gap: 12px;
+      margin-top: 18px;
+    }
+
+    .driver-list span {
+      display: block;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      border-radius: 6px;
+      padding: 12px;
+      color: #dbe8f4;
+      background: rgba(255, 255, 255, 0.06);
+      font-size: 14px;
+    }
+
+    .about-grid {
+      grid-template-columns: 0.95fr 1.05fr;
+      align-items: start;
+    }
+
+    .about-copy {
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.85;
+    }
+
+    .about-metrics {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+    }
+
+    .about-metric {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 20px;
+      background: #fff;
+    }
+
+    .about-metric strong {
+      display: block;
+      color: var(--navy);
+      font-size: 28px;
+      line-height: 1;
+    }
+
+    .about-metric span {
+      display: block;
+      margin-top: 9px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
+    footer {
+      padding: 28px 0;
+      color: #c9d6e4;
+      background: var(--navy);
+      font-size: 13px;
+    }
+
+    h1 {
+      font-weight: 900;
+    }
+
+    h2,
+    .metric strong {
+      font-weight: 800;
+    }
+
+    h3,
+    strong,
+    .stat strong,
+    .about-metric strong,
+    .section-title h3,
+    .service-card h3,
+    .driver-card h3,
+    .about-card h3 {
+      font-weight: 700;
+    }
+
+    .nav-cta,
+    .primary-btn,
+    .secondary-btn,
+    .primary,
+    .ghost,
+    .quote-type,
+    .detail-row span:last-child,
+    .icon-box {
+      font-weight: 800;
+    }
+
+    .nav-menu a,
+    .eyebrow,
+    .section-kicker,
+    .status-pill,
+    label,
+    .metric span,
+    .error {
+      font-weight: 700;
+    }
+
+    .footer-inner {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    @media (max-width: 960px) {
+      .nav-inner {
+        align-items: flex-start;
+        flex-direction: column;
+        padding: 14px 0;
       }
 
-      .brand {
-        align-items: flex-start;
+      .nav-menu {
+        width: 100%;
+        overflow-x: auto;
+        padding-bottom: 2px;
+      }
+
+      .hero {
+        min-height: 560px;
       }
 
       h1 {
-        font-size: 23px;
+        font-size: 42px;
       }
 
-      .quote-head,
-      .metric-grid {
+      .hero-stats,
+      .quote-wrap,
+      .service-grid,
+      .driver-grid,
+      .about-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-stats {
+        margin-top: -54px;
+      }
+
+      .section-head {
+        display: grid;
+        align-items: start;
+      }
+    }
+
+    @media (max-width: 620px) {
+      .container {
+        width: min(100% - 24px, 1180px);
+      }
+
+      .logo-img {
+        width: 140px;
+      }
+
+      .brand-copy {
+        display: none;
+      }
+
+      .nav-cta {
+        display: none;
+      }
+
+      .hero {
+        min-height: 620px;
+      }
+
+      .hero::before {
+        background:
+          linear-gradient(180deg, rgba(4, 25, 49, 0.95) 0%, rgba(4, 25, 49, 0.84) 58%, rgba(4, 25, 49, 0.42) 100%),
+          url("logistics-hero.png") center / cover no-repeat;
+      }
+
+      .hero-content {
+        padding: 62px 0 120px;
+      }
+
+      h1 {
+        font-size: 34px;
+      }
+
+      h2 {
+        font-size: 27px;
+      }
+
+      .hero-text {
+        font-size: 16px;
+      }
+
+      .hero-actions,
+      .footer-inner {
+        display: grid;
+      }
+
+      .primary-btn,
+      .secondary-btn {
+        width: 100%;
+      }
+
+      .metric-grid,
+      .about-metrics {
         grid-template-columns: 1fr;
       }
 
@@ -460,76 +922,221 @@
   </style>
 </head>
 <body>
-  <main class="shell">
-    <header>
-      <div class="brand">
-        <div class="mark">NA</div>
+  <nav class="navbar">
+    <div class="container nav-inner">
+      <a class="logo-link" href="#home" aria-label="KEYSTONE 首页">
+        <img class="logo-img" src="keystone-logo.png" alt="KEYSTONE">
+        <span class="brand-copy">
+          <strong>欧美中大件海外仓解决方案</strong>
+          <span>North America Warehousing & Freight</span>
+        </span>
+      </a>
+
+      <div class="nav-menu" aria-label="主导航">
+        <a href="#home">首页</a>
+        <a href="#quote">报价</a>
+        <a href="#drivers">司机加入</a>
+        <a href="#about">关于我们</a>
+      </div>
+
+      <a class="nav-cta" href="#quote">立即报价</a>
+    </div>
+  </nav>
+
+  <header class="hero" id="home">
+    <div class="container hero-content">
+      <span class="eyebrow">Keystone Logistics</span>
+      <h1>北美仓配一体化报价与运输服务</h1>
+      <p class="hero-text">依托洛杉矶、休斯顿、新泽西、宾州等核心仓群，为跨境卖家提供仓到仓、干线调拨、尾程配送和中大件履约支持。</p>
+      <div class="hero-actions">
+        <a class="primary-btn" href="#quote">获取即时报价</a>
+        <a class="secondary-btn" href="#about">了解仓网能力</a>
+      </div>
+    </div>
+  </header>
+
+  <section class="container hero-stats" aria-label="核心能力">
+    <div class="stat">
+      <strong>25+</strong>
+      <span>自营海外仓网络</span>
+    </div>
+    <div class="stat">
+      <strong>900万+</strong>
+      <span>平方英尺仓储面积</span>
+    </div>
+    <div class="stat">
+      <strong>30000+</strong>
+      <span>年均发货柜量</span>
+    </div>
+    <div class="stat">
+      <strong>20年</strong>
+      <span>出海物流服务经验</span>
+    </div>
+  </section>
+
+  <section class="section" id="quote">
+    <div class="container">
+      <div class="section-head">
         <div>
-          <h1>北美物流报价器</h1>
-          <p class="subtitle">仓到仓 / 全程配送单页报价工具</p>
+          <span class="section-kicker">Quote</span>
+          <h2>客户报价</h2>
+        </div>
+        <p class="section-desc">选择起始仓、输入目的地邮编和板数，系统会根据线路区域自动生成仓到仓或全程配送报价。</p>
+      </div>
+
+      <div class="quote-wrap">
+        <form class="panel form-panel" id="quoteForm">
+          <div class="section-title">
+            <h3>报价输入</h3>
+            <span class="status-pill">即时计算</span>
+          </div>
+
+          <div class="field">
+            <label for="warehouse">起始仓库</label>
+            <select id="warehouse" required>
+              <option value="LA01">LA01 - Los Angeles</option>
+              <option value="LA15">LA15 - Los Angeles</option>
+              <option value="HOU4">HOU4 - Houston</option>
+              <option value="HOU6">HOU6 - Houston</option>
+              <option value="NJ7">NJ7 - New Jersey</option>
+              <option value="NJ4">NJ4 - New Jersey</option>
+              <option value="PA2">PA2 - Pennsylvania</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="zip">目的地邮编</label>
+            <input id="zip" type="text" inputmode="numeric" maxlength="5" placeholder="例如 75201" required>
+          </div>
+
+          <div class="field">
+            <label for="pallets">板数</label>
+            <input id="pallets" type="number" min="1" step="1" value="1" required>
+          </div>
+
+          <div class="toggle-row">
+            <div class="toggle-copy">
+              <strong>包含 last mile</strong>
+              <span>开启后按全程报价计算</span>
+            </div>
+            <label class="switch" aria-label="是否包含 last mile">
+              <input id="lastMile" type="checkbox" checked>
+              <span class="slider"></span>
+            </label>
+          </div>
+
+          <div class="button-row">
+            <button class="primary" type="submit">计算报价</button>
+            <button class="ghost" type="button" id="resetBtn">重置</button>
+          </div>
+          <div class="error" id="error" aria-live="polite"></div>
+        </form>
+
+        <div class="results" id="results">
+          <section class="panel quote-panel">
+            <div class="empty-state">
+              <strong>输入目的地邮编后生成报价</strong>
+              <p>系统会自动判断起始仓区域、目的地区域和对应线路。</p>
+            </div>
+          </section>
         </div>
       </div>
-      <div class="config-note">北美货运 · 在线报价系统</div>
-    </header>
+    </div>
+  </section>
 
-    <section class="layout">
-      <form class="panel form-panel" id="quoteForm">
-        <div class="section-title">
-          <h2>报价输入</h2>
-          <span class="status-pill">即时计算</span>
+  <section class="section">
+    <div class="container">
+      <div class="section-head">
+        <div>
+          <span class="section-kicker">Services</span>
+          <h2>覆盖仓储、干线、尾程的北美服务网络</h2>
         </div>
-
-        <div class="field">
-          <label for="warehouse">起始仓库</label>
-          <select id="warehouse" required>
-            <option value="LA01">LA01 - Los Angeles</option>
-            <option value="LA15">LA15 - Los Angeles</option>
-            <option value="HOU4">HOU4 - Houston</option>
-            <option value="HOU6">HOU6 - Houston</option>
-            <option value="NJ7">NJ7 - New Jersey</option>
-            <option value="NJ4">NJ4 - New Jersey</option>
-            <option value="PA2">PA2 - Pennsylvania</option>
-          </select>
-        </div>
-
-        <div class="field">
-          <label for="zip">目的地邮编</label>
-          <input id="zip" type="text" inputmode="numeric" maxlength="5" placeholder="例如 75201" required>
-        </div>
-
-        <div class="field">
-          <label for="pallets">板数</label>
-          <input id="pallets" type="number" min="1" step="1" value="1" required>
-        </div>
-
-        <div class="toggle-row">
-          <div class="toggle-copy">
-            <strong>包含 last mile</strong>
-            <span>开启后按全程报价计算</span>
-          </div>
-          <label class="switch" aria-label="是否包含 last mile">
-            <input id="lastMile" type="checkbox" checked>
-            <span class="slider"></span>
-          </label>
-        </div>
-
-        <div class="button-row">
-          <button class="primary" type="submit">计算报价</button>
-          <button class="ghost" type="button" id="resetBtn">重置</button>
-        </div>
-        <div class="error" id="error" aria-live="polite"></div>
-      </form>
-
-      <div class="results" id="results">
-        <section class="panel quote-panel">
-          <div class="empty-state">
-            <strong>输入目的地邮编后生成报价</strong>
-            <p>系统会自动判断起始仓区域、目的地区域和对应线路成本。</p>
-          </div>
-        </section>
+        <p class="section-desc">围绕跨境卖家在北美的仓配需求，提供可组合的履约服务，支持中大件、标件、多仓调拨和旺季补仓。</p>
       </div>
-    </section>
-  </main>
+
+      <div class="service-grid">
+        <article class="service-card">
+          <div class="icon-box">01</div>
+          <h3>海外仓与智能分仓</h3>
+          <p>覆盖美西、美中、美东核心区域，支持仓储、一件代发、FBA中转、贴标、打包和多仓库存协同。</p>
+        </article>
+        <article class="service-card">
+          <div class="icon-box">02</div>
+          <h3>干线调拨与仓到仓</h3>
+          <p>围绕 LA、TX、NJ/PA 仓群进行区域线路报价，适合整车、拼板和旺季跨区域补货需求。</p>
+        </article>
+        <article class="service-card">
+          <div class="icon-box">03</div>
+          <h3>Last mile 尾程配送</h3>
+          <p>面向大件、家具、平台订单和本土客户交付场景，提供可与干线组合的全程配送报价。</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section driver-section" id="drivers">
+    <div class="container">
+      <div class="section-head">
+        <div>
+          <span class="section-kicker">Drivers</span>
+          <h2>司机与承运商加入</h2>
+        </div>
+        <p class="section-desc">欢迎具备北美本地配送、干线运输、仓配协同能力的司机和承运商加入网络，共同服务跨境卖家。</p>
+      </div>
+
+      <div class="driver-grid">
+        <article class="driver-card driver-panel">
+          <h3>合作方向</h3>
+          <p>我们持续拓展北美本地运力网络，覆盖仓到仓调拨、末端派送、预约送仓、超大件配送等业务场景。</p>
+          <div class="driver-list">
+            <span>干线运输：LA / TX / NJ / PA 等核心仓群线路</span>
+            <span>末端配送：住宅、商业地址和平台订单交付</span>
+            <span>仓配协同：预约、提货、签收、异常反馈</span>
+          </div>
+        </article>
+        <article class="driver-card">
+          <h3>加入要求</h3>
+          <p>具备合规车辆、保险和基础配送经验，能够稳定响应提派任务，并配合节点回传与签收资料管理。后续系统版本将开放在线资料提交入口。</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="about">
+    <div class="container about-grid">
+      <div>
+        <span class="section-kicker">About</span>
+        <h2>关于强基供应链</h2>
+        <p class="about-copy">强基供应链聚焦欧美市场，面向跨境电商卖家和中大件客户提供海外仓、国际运输、末端派送和全链路系统化服务。依托自营仓群和数字化系统，持续提升北美仓配一体化的交付效率与服务稳定性。</p>
+      </div>
+
+      <div class="about-metrics">
+        <div class="about-metric">
+          <strong>LA 342万</strong>
+          <span>平方英尺洛杉矶仓群，位于美西物流要塞</span>
+        </div>
+        <div class="about-metric">
+          <strong>NJ 260万</strong>
+          <span>平方英尺新泽西仓群，覆盖美东核心市场</span>
+        </div>
+        <div class="about-metric">
+          <strong>HOU 6仓</strong>
+          <span>休斯顿仓群联动，支撑美中区域调拨</span>
+        </div>
+        <div class="about-metric">
+          <strong>OMS/WMS</strong>
+          <span>自研系统支持仓储、配送和节点管理</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container footer-inner">
+      <span>KEYSTONE North America Logistics Quote</span>
+      <span>仓配一体化 · 干线调拨 · Last mile</span>
+    </div>
+  </footer>
 
   <script>
     const CONFIG = {
@@ -556,9 +1163,9 @@
     };
 
     const ROUTE_COSTS = {
-      "LA:NJ_PA": { truckCost: 11000, basis: "LA ↔ NJ 固定 $11,000/车" },
-      "LA:TX": { truckCost: 1500 * CONFIG.costPerMile, basis: "LA ↔ TX 约 1500 miles × $3/mile" },
-      "NJ_PA:TX": { truckCost: 1600 * CONFIG.costPerMile, basis: "TX ↔ NJ/PA 约 1600 miles × $3/mile" }
+      "LA:NJ_PA": { truckCost: 11000, basis: "LA ↔ NJ 固定线路" },
+      "LA:TX": { truckCost: 1500 * CONFIG.costPerMile, basis: "LA ↔ TX 干线线路" },
+      "NJ_PA:TX": { truckCost: 1600 * CONFIG.costPerMile, basis: "TX ↔ NJ/PA 干线线路" }
     };
 
     const form = document.getElementById("quoteForm");
@@ -634,20 +1241,16 @@
       const sameRegion = warehouse.region === destinationRegion;
 
       let truckCost = 0;
-      let routeBasis = "同区域，不计算大车成本";
 
       if (!sameRegion) {
         const route = ROUTE_COSTS[routeKey(warehouse.market, destinationMarket)];
         truckCost = route.truckCost;
-        routeBasis = route.basis;
       }
 
       const linehaulPerPallet = truckCost / CONFIG.palletsPerTruck;
       const lastMilePerPallet = hasLastMile ? CONFIG.lastMilePerPallet : 0;
       const sellPerPallet = linehaulPerPallet + lastMilePerPallet + CONFIG.profitPerPallet;
       const total = sellPerPallet * pallets;
-      const customerCostPerPallet = linehaulPerPallet + lastMilePerPallet;
-      const totalCustomerVisibleCost = customerCostPerPallet * pallets;
 
       renderQuote({
         warehouseCode,
@@ -656,15 +1259,8 @@
         pallets,
         hasLastMile,
         destinationRegion,
-        sameRegion,
-        truckCost,
-        routeBasis,
-        linehaulPerPallet,
-        lastMilePerPallet,
         sellPerPallet,
-        total,
-        customerCostPerPallet,
-        totalCustomerVisibleCost
+        total
       });
     }
 
@@ -675,7 +1271,7 @@
         <section class="panel quote-panel">
           <div class="quote-head">
             <div>
-              <h2>客户报价</h2>
+              <h3>报价结果</h3>
               <p class="route-line">${quote.warehouseCode}（${REGION_LABELS[quote.warehouse.region]}） → ${quote.zip}（${REGION_LABELS[quote.destinationRegion]}）</p>
             </div>
             <span class="quote-type">${quoteType}</span>
@@ -697,14 +1293,18 @@
 
         <div class="details">
           <section class="panel detail-panel">
-            <h3>客户报价区域</h3>
+            <h3>客户报价明细</h3>
             <div class="detail-row">
               <span>报价类型</span>
               <span>${quoteType}</span>
             </div>
             <div class="detail-row">
-              <span>单板报价</span>
-              <span>${money(quote.sellPerPallet)}</span>
+              <span>起始仓</span>
+              <span>${quote.warehouseCode}</span>
+            </div>
+            <div class="detail-row">
+              <span>目的地区域</span>
+              <span>${REGION_LABELS[quote.destinationRegion]}</span>
             </div>
             <div class="detail-row">
               <span>板数</span>
@@ -715,7 +1315,6 @@
               <span>${money(quote.total)}</span>
             </div>
           </section>
-
         </div>
       `;
     }
@@ -740,7 +1339,7 @@
         <section class="panel quote-panel">
           <div class="empty-state">
             <strong>输入目的地邮编后生成报价</strong>
-            <p>系统会自动判断起始仓区域、目的地区域和对应线路成本。</p>
+            <p>系统会自动判断起始仓区域、目的地区域和对应线路。</p>
           </div>
         </section>
       `;
